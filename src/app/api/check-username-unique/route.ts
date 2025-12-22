@@ -4,69 +4,71 @@ import { z } from "zod";
 import { usernameValidation } from "@/schemas/signUpSchema";
 
 const UsernameQuerySchema = z.object({
-    username: usernameValidation
-})
+  username: usernameValidation,
+});
 
 export async function GET(request: Request) {
+  await dbConnect();
 
-    await dbConnect();
+  try {
+    const { searchParams } = new URL(request.url);
 
-    try {
-        const { searchParams } = new URL(request.url);
-        const queryParams = {
-            username: searchParams.get("username")
-        }
-        // Validate query parameters
-        const result = UsernameQuerySchema.safeParse(queryParams);
+    const queryParams = {
+      username: searchParams.get("username"),
+    };
 
-        if (!result.success) {
-            const usernameErrors = result.error.format().username?._errors || [];
-            return Response.json(
-                {
-                    success: false,
-                    message: usernameErrors?.length > 0 ? usernameErrors.join(", ") : "Invalid username"
-                },
-                {
-                    status: 400
-                }
-            )
-        }
+    // Validate query parameters
+    const result = UsernameQuerySchema.safeParse(queryParams);
 
-        const { username } = result.data;
+    if (!result.success) {
+      const usernameErrors =
+        result.error.format().username?._errors || [];
 
-        const exestingVerifiedUser = await UserModel.findOne({ username, isVerified: true })
-
-        if (exestingVerifiedUser) {
-            return Response.json(
-                {
-                    success: false,
-                    message: "Username is already taken"
-                }, {
-                status: 400
-            }
-            )
-        }
-
-        return Response.json({
-            success: true,
-            message: "Username is available"
+      return Response.json(
+        {
+          success: false,
+          message:
+            usernameErrors.length > 0
+              ? usernameErrors.join(", ")
+              : "Invalid username",
         },
-            {
-                status: 200
-            }
-        )
-
-
-    } catch (error) {
-        console.error("Error checking username unique", error);
-        return Response.json(
-            {
-                success: false,
-                message: "Error checking username unique"
-            },
-            {
-                status: 500
-            }
-        )
+        { status: 400 }
+      );
     }
+
+    const { username } = result.data;
+
+    const existingVerifiedUser = await UserModel.findOne({
+      username,
+      isVerified: true,
+    });
+
+    if (existingVerifiedUser) {
+      return Response.json(
+        {
+          success: false,
+          message: "Username is already taken",
+        },
+        { status: 400 }
+      );
+    }
+
+    return Response.json(
+      {
+        success: true,
+        message: "Username is available",
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error checking username uniqueness:", error);
+
+    return Response.json(
+      {
+        success: false,
+        message: "Error checking username uniqueness",
+      },
+      { status: 500 }
+    );
+  }
 }

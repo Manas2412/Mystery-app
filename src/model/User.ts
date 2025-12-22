@@ -57,9 +57,9 @@ const UserSchema : Schema<User> = new Schema({
     },
     isVerified: {
         type: Boolean,
-        daefault: false
+        default: false
     },
-    isAcceptipngMessages: {
+    isAcceptingMessages: {
         type: Boolean,
         default: true
     },
