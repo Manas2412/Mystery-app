@@ -75,7 +75,7 @@ const page = () => {
             toast.success("Success", {
                 description: response.data.message,
             })
-            router.replace(`/verify/${data.username}`)
+            router.replace(`/verify/${username}`)
             setIsSubmitting(false)
         } catch (err) {
             console.error("Error in signup of user", err)
