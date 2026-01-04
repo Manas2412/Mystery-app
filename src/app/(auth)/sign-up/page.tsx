@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 
 
-const page = () => {
+const SignUpPage = () => {
 
     const [username, setUsername] = useState("")
     const [usernameMessage, setUsernameMessage] = useState("")
@@ -80,7 +80,7 @@ const page = () => {
         } catch (err) {
             console.error("Error in signup of user", err)
             const axiosError = err as AxiosError<ApiResponse>
-            let errorMessage = axiosError.response?.data.message
+            const errorMessage = axiosError.response?.data.message
             toast.error('Sign up failed', {
                 description: errorMessage ?? 'Something went wrong',
             })
@@ -111,6 +111,7 @@ const page = () => {
                                     <FormControl>
                                         <Input placeholder="username"
                                             {...field}
+                                            autoComplete="username"
                                             onChange={(e) => {
                                                 field.onChange(e)
                                                 debounced(e.target.value)
@@ -137,6 +138,7 @@ const page = () => {
                                     <FormControl>
                                         <Input placeholder="email"
                                             {...field}
+                                            autoComplete="email"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -153,6 +155,7 @@ const page = () => {
                                     <FormControl>
                                         <Input type="password" placeholder="password"
                                             {...field}
+                                            autoComplete="new-password"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -183,4 +186,4 @@ const page = () => {
     )
 }
 
-export default page
+export default SignUpPage

@@ -24,7 +24,7 @@ export interface User extends Document{
     verifyCode: String;
     verifyCodeExpires: Date;
     isVerified: Boolean;
-    isAcceptipngMessages: Boolean;
+    isAcceptingMessages: Boolean;
     messages: Message[];
 }
 
