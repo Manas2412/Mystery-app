@@ -24,7 +24,7 @@ export interface User extends Document{
     verifyCode: String;
     verifyCodeExpires: Date;
     isVerified: Boolean;
-    isAcceptipngMessages: Boolean;
+    isAcceptingMessages: Boolean;
     messages: Message[];
 }
 
@@ -57,9 +57,9 @@ const UserSchema : Schema<User> = new Schema({
     },
     isVerified: {
         type: Boolean,
-        daefault: false
+        default: false
     },
-    isAcceptipngMessages: {
+    isAcceptingMessages: {
         type: Boolean,
         default: true
     },
