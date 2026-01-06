@@ -16,7 +16,9 @@ const VerifyAccount = () => {
     const params = useParams<{ username: string }>();
     const form = useForm<z.infer<typeof verifySchema>>({
         resolver: zodResolver(verifySchema),
-
+        defaultValues: {
+            verifyCode: '',
+        },
     });
 
     const onSubmit = async (data: z.infer<typeof verifySchema>) => {
@@ -31,11 +33,11 @@ const VerifyAccount = () => {
             })
             router.replace('/sign-in')
         } catch (err) {
-            console.error("Error in signup of user", err)
+            console.error("Error verifying code", err)
             const axiosError = err as AxiosError<ApiResponse>
 
-            toast.error('Sign up failed', {
-                description: axiosError.response?.data.message,
+            toast.error('Verification failed', {
+                description: axiosError.response?.data.message ?? "An error occurred while verifying the code",
             })
 
         }
