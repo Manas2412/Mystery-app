@@ -44,13 +44,13 @@ const VerifyAccount = () => {
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md p-8 spave-y-8 bg-white rounded-lg shadow-md">
+        <div className="flex justify-center items-center min-h-screen bg-gray-950 text-white">
+            <div className="w-full max-w-md p-8 space-y-8 bg-gray-900 rounded-2xl shadow-2xl border border-gray-800">
                 <div className="text-center">
-                    <h1 className="text-4xl font-extrabold tracking-light lg:text-5xlmb-6">
+                    <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                         Verify Your Account
                     </h1>
-                    <p className="mb-4">
+                    <p className="mb-4 text-gray-400">
                         Enter the verification code sent to your email address
                     </p>
                 </div>
@@ -66,7 +66,7 @@ const VerifyAccount = () => {
                                     <FormControl>
                                         <Input placeholder="code" {...field} />
                                     </FormControl>
-            
+
                                     <FormMessage />
                                 </FormItem>
                             )}

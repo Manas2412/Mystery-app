@@ -2,6 +2,7 @@
 
 import MessageCard from "@/components/MessageCard"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { Message } from "@/model/User"
@@ -16,7 +17,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-const page = () => {
+const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isSwitching, setIsSwitching] = useState(false)
@@ -101,9 +102,15 @@ const page = () => {
 
   const { username } = session.user as User
   const baseUrl = typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : ''
-  const profileUrl = `${baseUrl}/u/${username}`
+  const profileUrl = username ? `${baseUrl}/u/${username}` : 'Loading...'
 
   const copyToClipboard = () => {
+    if (!username) {
+      toast.error("Error", {
+        description: "Username not found"
+      })
+      return
+    }
     navigator.clipboard.writeText(profileUrl)
     toast.success("Copied", {
       description: "Profile URL Copied"
@@ -111,18 +118,19 @@ const page = () => {
   }
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+    <div className="flex-grow my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-gray-900 text-white rounded-xl border border-gray-800 w-full max-w-6xl shadow-2xl">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
 
       <div className="mb-4">
         <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>
         {''}
         <div className="flex items-center">
-          <input
+          <Input
             type="text"
             value={profileUrl}
             disabled
-            className="input input-bordered w-full p-2 mr-2" />
+            className="input-bordered w-full p-2 mr-2"
+          />
           <Button onClick={copyToClipboard}>Copy</Button>
         </div>
       </div>
@@ -173,4 +181,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Dashboard
