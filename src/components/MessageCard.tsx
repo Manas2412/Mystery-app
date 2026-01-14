@@ -54,18 +54,19 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>Card Title</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                    {message.content as string}
+                </CardTitle>
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive"><X className="w-5 h-5" /></Button>
+                        <Button variant="destructive" size="icon"><X className="w-4 h-4" /></Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                             <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your
-                                account and remove your data from our servers.
+                                This action cannot be undone. This will permanently delete the message.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -74,9 +75,11 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-                <CardDescription>Card Description</CardDescription>
             </CardHeader>
             <CardContent>
+                <div className="text-xs text-muted-foreground">
+                    {new Date(message.createdAt).toLocaleString()}
+                </div>
             </CardContent>
         </Card>
     )

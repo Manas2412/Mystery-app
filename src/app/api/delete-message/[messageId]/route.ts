@@ -24,10 +24,10 @@ export async function DELETE(request: Request, { params }: { params: { messageId
     }
     try {
         const updatedResult = await UserModel.updateOne(
-            { id: user.id },
+            { _id: user._id },
             { $pull: { messages: { _id: new mongoose.Types.ObjectId(params.messageId) } } }
         )
-        if(updatedResult.modifiedCount==0){
+        if (updatedResult.modifiedCount == 0) {
             return Response.json(
                 {
                     success: false,
@@ -44,10 +44,10 @@ export async function DELETE(request: Request, { params }: { params: { messageId
                 success: true,
                 message: "Message deleted successfully"
             },
-            {status: 200}
+            { status: 200 }
         )
     } catch (err) {
-        console.log("Error deleting Message",err)
+        console.log("Error deleting Message", err)
         return Response.json(
             {
                 success: false,
