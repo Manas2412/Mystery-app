@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "./ui/button"
 import { X } from 'lucide-react'
-import {Message} from '@/model/User'
+import { Message } from '@/model/User'
 import { toast } from "sonner"
 import { ApiResponse } from "@/types/ApiResponse"
 import axios from "axios"
@@ -33,14 +33,14 @@ type MessageCardProps = {
     onMessageDelete: (messageId: string) => void;
 }
 
-const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
+const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
 
     const handleDeleteConfirm = async () => {
         try {
             // Convert _id to string if it's an ObjectId
             const messageId = typeof message._id === 'string' ? message._id : message._id.toString();
-            
-            const response = await axios.delete<ApiResponse>(`/api/messages/${messageId}`)
+
+            const response = await axios.delete<ApiResponse>(`/api/delete-message/${messageId}`)
             toast.success(response.data.message)
             onMessageDelete(messageId)
         } catch (error) {
@@ -58,7 +58,7 @@ const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
                 <CardTitle>Card Title</CardTitle>
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive"><X className="w-5 h-5"/></Button>
+                        <Button variant="destructive"><X className="w-5 h-5" /></Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
@@ -70,7 +70,7 @@ const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick = {handleDeleteConfirm}>Continue</AlertDialogAction>
+                            <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
